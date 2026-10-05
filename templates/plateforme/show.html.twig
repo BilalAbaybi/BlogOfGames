@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ plateforme.nom }}{% endblock %}
+{% block body %}
+    <section class="page-info-section set-bg admin-hero" data-setbg="{{ asset('img/page-top-bg/1.jpg') }}">
+        <div class="pi-content"><div class="container"><div class="text-white">
+            <span class="cata new">Plateforme</span><h2>{{ plateforme.nom }}</h2><p>{{ plateforme.presents|length }} tarif{{ plateforme.presents|length == 1 ? '' : 's' }} associé{{ plateforme.presents|length == 1 ? '' : 's' }}</p>
+        </div></div></div>
+    </section>
+    <section class="admin-page spad">
+        <div class="container">
+            <div class="admin-panel">
+                <span class="catalog-kicker">Jeux disponibles</span><h1>Tarifs sur {{ plateforme.nom }}</h1>
+                <div class="admin-record-list">
+                    {% for present in plateforme.presents %}
+                        <article class="admin-record">
+                            <div class="admin-record-content"><h2>{{ present.jeux.titre }}</h2><p>{{ present.prix is not null ? present.prix|number_format(2, ',', ' ') ~ ' €' : 'Prix non renseigné' }}</p></div>
+                            <div class="admin-record-actions"><a href="{{ path('app_jeux_show', {id: present.jeux.id}) }}">Voir le jeu</a><a href="{{ path('app_present_edit', {id: present.id}) }}">Modifier le tarif</a></div>
+                        </article>
+                    {% else %}
+                        <div class="catalog-empty">Aucun tarif n’est associé à cette plateforme.</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <nav class="admin-page-actions"><a class="catalog-back" href="{{ path('app_plateforme_index') }}">← Toutes les plateformes</a><a class="site-btn" href="{{ path('app_plateforme_edit', {id: plateforme.id}) }}">Modifier la plateforme</a>{{ include('plateforme/_delete_form.html.twig') }}</nav>
+        </div>
+    </section>
+{% endblock %}

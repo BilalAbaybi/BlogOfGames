@@ -1,0 +1,132 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ jeux.titre }}{% endblock %}
+
+{% block body %}
+    <section class="page-info-section set-bg game-hero" data-setbg="{{ asset(jeux.img ?: 'img/page-top-bg/1.jpg') }}">
+        <div class="pi-content">
+            <div class="container">
+                <div class="game-hero-content">
+                    <span class="cata new">{{ jeux.genre.nom }}</span>
+                    <h1>{{ jeux.titre }}</h1>
+                    {% if jeux.dateSortie %}<p>Sorti le {{ jeux.dateSortie|date('d/m/Y') }}</p>{% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="game-detail-page spad">
+        <div class="container">
+            <section class="game-content-layout row" aria-label="Présentation du jeu">
+                <div class="col-lg-8 mb-4 game-main-column">
+                    {% if jeux.galerie is not empty or youtube_embed_url %}
+                        <section class="game-media-section" aria-labelledby="game-media-title">
+                            <div class="catalog-heading">
+                                <div><span class="catalog-kicker">Images et vidéo</span><h2 id="game-media-title">À découvrir en images</h2></div>
+                            </div>
+
+                            {% if youtube_embed_url %}
+                                <div class="game-video-frame">
+                                    <iframe src="{{ youtube_embed_url }}" title="Vidéo de {{ jeux.titre }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                </div>
+                            {% endif %}
+
+                            {% if jeux.galerie is not empty %}
+                                <div class="media-gallery" data-game-gallery>
+                                    {% for image in jeux.galerie %}
+                                        <button class="media-gallery-item" type="button" data-gallery-open data-gallery-index="{{ loop.index0 }}" aria-label="Afficher la capture {{ loop.index }} en grand">
+                                            <img src="{{ asset('uploads/jeux/' ~ image) }}" alt="Capture d’écran {{ loop.index }} de {{ jeux.titre }}" loading="lazy">
+                                            <span>Voir l’image</span>
+                                        </button>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </section>
+                    {% endif %}
+
+                    <article class="game-description-panel">
+                        <span class="catalog-kicker">À propos du jeu</span>
+                        <h2 id="game-overview-title">{{ jeux.titre }}</h2>
+                        {% if jeux.description %}<p>{{ jeux.description }}</p>{% endif %}
+                        {% if jeux.detail %}
+                            <div class="game-extra-detail">
+                                <h3>En savoir plus</h3>
+                                <p>{{ jeux.detail }}</p>
+                            </div>
+                        {% endif %}
+                    </article>
+                </div>
+                <aside class="col-lg-4 mb-4 game-side-column" aria-label="Informations sur le jeu">
+                    <div class="game-info-panel">
+                        <span class="catalog-kicker">Fiche du jeu</span>
+                        <h2>Informations</h2>
+                        <dl class="game-facts">
+                            <div><dt>Catégorie</dt><dd>{{ jeux.genre.nom }}</dd></div>
+                            {% if jeux.dateSortie %}<div><dt>Date de sortie</dt><dd>{{ jeux.dateSortie|date('d/m/Y') }}</dd></div>{% endif %}
+                        </dl>
+                    </div>
+                </aside>
+            </section>
+
+            <section class="game-reviews-section" aria-labelledby="game-reviews-title">
+                <div class="catalog-heading">
+                    <div><span class="catalog-kicker">La communauté</span><h2 id="game-reviews-title">Avis des joueurs</h2></div>
+                    {% if app.user and not avis_deja_depose %}
+                        <a href="{{ path('app_avis_new', {id: jeux.id}) }}" class="site-btn">Donner mon avis</a>
+                    {% endif %}
+                </div>
+
+                {% for avis in jeux.avis %}
+                    <article class="game-review-card">
+                        <div class="game-review-heading">
+                            <strong>{{ avis.utilisateur.pseudo ?: avis.utilisateur.userIdentifier }}</strong>
+                            <span class="game-review-stars" aria-label="Note de {{ avis.note }} sur 5">
+                                {% for etoile in 1..5 %}{{ etoile <= avis.note ? '★' : '☆' }}{% endfor %}
+                            </span>
+                        </div>
+                        <p>{{ avis.description }}</p>
+                        {% if is_granted('AVIS_EDIT', avis) %}
+                            <div class="game-review-actions">
+                                <a href="{{ path('app_avis_edit', {id: avis.id}) }}">Modifier mon avis</a>
+                                <form method="post" action="{{ path('app_avis_delete', {id: avis.id}) }}" onsubmit="return confirm('Supprimer ton avis ?')">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete-avis-' ~ avis.id) }}">
+                                    <button type="submit">Supprimer mon avis</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </article>
+                {% else %}
+                    <div class="catalog-empty">Il n’y a pas encore d’avis pour ce jeu.</div>
+                {% endfor %}
+
+                {% if app.user and avis_deja_depose %}
+                    <p class="game-review-note">Tu as déjà publié un avis pour ce jeu.</p>
+                {% elseif not app.user %}
+                    <p class="game-review-note"><a href="{{ path('app_login') }}">Connecte-toi</a> pour donner ton avis.</p>
+                {% endif %}
+            </section>
+
+            <nav class="game-page-actions" aria-label="Navigation de la fiche du jeu">
+                <a href="{{ path('app_jeux_index') }}" class="site-btn">← Retour aux jeux</a>
+                <a href="{{ path('app_jeux_edit', {id: jeux.id}) }}" class="game-admin-link">Modifier la fiche</a>
+                {{ include('jeux/_delete_form.html.twig') }}
+            </nav>
+        </div>
+    </main>
+
+    {% if jeux.galerie is not empty %}
+        <dialog class="game-gallery-dialog" data-gallery-dialog aria-label="Galerie de {{ jeux.titre }}">
+            <button type="button" class="gallery-close" data-gallery-close aria-label="Fermer la galerie">×</button>
+            <button type="button" class="gallery-nav gallery-previous" data-gallery-previous aria-label="Image précédente">‹</button>
+            <figure>
+                <img data-gallery-current alt="">
+                <figcaption data-gallery-counter></figcaption>
+            </figure>
+            <button type="button" class="gallery-nav gallery-next" data-gallery-next aria-label="Image suivante">›</button>
+        </dialog>
+    {% endif %}
+{% endblock %}
+
+{% block page_scripts %}
+    {% if jeux.galerie is not empty %}<script src="{{ asset('js/game-gallery.js') }}" defer></script>{% endif %}
+{% endblock %}

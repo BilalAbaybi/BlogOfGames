@@ -1,0 +1,25 @@
+{{ form_start(form, {attr: {class: 'admin-form'}}) }}
+    {{ form_errors(form) }}
+    {{ form_row(form.titre) }}
+    <div class="row">
+        <div class="col-md-6">{{ form_row(form.genre) }}</div>
+        <div class="col-md-6">{{ form_row(form.date_sortie) }}</div>
+    </div>
+    {{ form_row(form.description) }}
+    {{ form_row(form.detail) }}
+    {{ form_row(form.img) }}
+    {{ form_row(form.galerieFichiers) }}
+    {{ form_row(form.youtubeUrl) }}
+    <button class="site-btn" type="submit">{{ button_label|default('Créer le jeu') }}</button>
+{{ form_end(form) }}
+
+{% if jeux.id and jeux.galerie is not empty %}
+    <div class="mt-4">
+        <h4>Captures déjà ajoutées</h4>
+        <div class="media-gallery media-gallery-compact">
+            {% for image in jeux.galerie %}
+                <img src="{{ asset('uploads/jeux/' ~ image) }}" alt="Capture de {{ jeux.titre }}">
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}

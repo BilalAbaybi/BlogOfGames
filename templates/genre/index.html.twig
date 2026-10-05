@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories de jeux{% endblock %}
+
+{% block body %}
+    <section class="page-info-section set-bg" data-setbg="{{ asset('img/page-top-bg/1.jpg') }}">
+        <div class="pi-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 text-white">
+                        <h2>Catégories de jeux</h2>
+                        <p>Explore les jeux par genre.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section recent-game-page spad catalog-page">
+        <div class="container">
+            <div class="catalog-heading">
+                <div><span class="catalog-kicker">Bibliothèque</span><h1>Choisis ton univers</h1></div>
+                <a class="site-btn" href="{{ path('app_genre_new') }}">Ajouter une catégorie</a>
+            </div>
+            <div class="row">
+                {% for genre in genres %}
+                    <div class="col-lg-4 col-md-6">
+                        <article class="recent-game-item catalog-game-card catalog-genre-card">
+                            <div class="rgi-thumb set-bg" data-setbg="{{ asset('img/recent-game-bg.png') }}">
+                                <div class="cata new">{{ genre.jeux|length }} jeu{{ genre.jeux|length == 1 ? '' : 'x' }}</div>
+                            </div>
+                            <div class="rgi-content">
+                                <h5>{{ genre.nom }}</h5>
+                                <p>Parcours les fiches et les avis des joueurs de cette catégorie.</p>
+                                <a class="comment" href="{{ path('app_genre_show', {id: genre.id}) }}">Voir les jeux →</a>
+                                <a class="admin-card-edit" href="{{ path('app_genre_edit', {id: genre.id}) }}">Modifier la catégorie</a>
+                            </div>
+                        </article>
+                    </div>
+                {% else %}
+                    <div class="col-12">
+                        <p>Aucune catégorie n’est disponible pour le moment.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

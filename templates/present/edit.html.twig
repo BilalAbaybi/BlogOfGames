@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}Modifier le tarif{% endblock %}
+{% block body %}
+    {{ include('_admin/form_page.html.twig', {
+        heading: 'Modifier le tarif',
+        intro: 'Mets à jour le jeu, la plateforme ou son prix.',
+        form_template: 'present/_form.html.twig',
+        back_path: path('app_present_index'),
+        back_label: 'Retour aux tarifs',
+        button_label: 'Enregistrer les modifications',
+        delete_template: 'present/_delete_form.html.twig'
+    }) }}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block title %}Tarif de {{ present.jeux.titre }}{% endblock %}
+{% block body %}
+    <section class="page-info-section set-bg admin-hero" data-setbg="{{ asset('img/page-top-bg/1.jpg') }}">
+        <div class="pi-content"><div class="container"><div class="text-white">
+            <span class="cata new">Tarif du jeu</span><h2>{{ present.jeux.titre }}</h2><p>{{ present.plateforme.nom }}</p>
+        </div></div></div>
+    </section>
+    <section class="admin-page spad">
+        <div class="container">
+            <article class="admin-panel admin-detail-panel">
+                <span class="catalog-kicker">Détail de l’offre</span><h1>{{ present.prix is not null ? present.prix|number_format(2, ',', ' ') ~ ' €' : 'Prix non renseigné' }}</h1>
+                <dl class="admin-detail-list">
+                    <div><dt>Jeu</dt><dd><a href="{{ path('app_jeux_show', {id: present.jeux.id}) }}">{{ present.jeux.titre }}</a></dd></div>
+                    <div><dt>Plateforme</dt><dd><a href="{{ path('app_plateforme_show', {id: present.plateforme.id}) }}">{{ present.plateforme.nom }}</a></dd></div>
+                </dl>
+            </article>
+            <nav class="admin-page-actions"><a href="{{ path('app_present_index') }}" class="catalog-back">← Retour aux tarifs</a><a href="{{ path('app_present_edit', {id: present.id}) }}" class="site-btn">Modifier le tarif</a>{{ include('present/_delete_form.html.twig') }}</nav>
+        </div>
+    </section>
+{% endblock %}

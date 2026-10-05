@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %}Plateformes{% endblock %}
+{% block body %}
+    <section class="page-info-section set-bg admin-hero" data-setbg="{{ asset('img/page-top-bg/1.jpg') }}">
+        <div class="pi-content"><div class="container"><div class="text-white">
+            <span class="cata new">Gestion du site</span><h2>Plateformes</h2><p>Les supports sur lesquels les jeux sont disponibles.</p>
+        </div></div></div>
+    </section>
+    <section class="admin-page spad">
+        <div class="container">
+            <div class="admin-list-heading"><div><span class="catalog-kicker">Bibliothèque</span><h1>Gérer les plateformes</h1></div><a class="site-btn" href="{{ path('app_plateforme_new') }}">Ajouter une plateforme</a></div>
+            <div class="admin-record-list">
+                {% for plateforme in plateformes %}
+                    <article class="admin-record">
+                        <span class="admin-record-icon">P</span>
+                        <div class="admin-record-content"><h2>{{ plateforme.nom }}</h2><p>{{ plateforme.presents|length }} tarif{{ plateforme.presents|length == 1 ? '' : 's' }} associé{{ plateforme.presents|length == 1 ? '' : 's' }}</p></div>
+                        <div class="admin-record-actions"><a href="{{ path('app_plateforme_show', {id: plateforme.id}) }}">Détails</a><a href="{{ path('app_plateforme_edit', {id: plateforme.id}) }}">Modifier</a></div>
+                    </article>
+                {% else %}
+                    <div class="catalog-empty">Aucune plateforme n’est enregistrée pour le moment.</div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

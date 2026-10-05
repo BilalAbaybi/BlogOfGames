@@ -1,0 +1,7 @@
+{{ form_start(form, {attr: {class: 'admin-form'}}) }}
+    {{ form_errors(form) }}
+    {{ form_row(form.jeux) }}
+    {{ form_row(form.plateforme) }}
+    {{ form_row(form.prix) }}
+    <button class="site-btn" type="submit">{{ button_label|default('Créer le tarif') }}</button>
+{{ form_end(form) }}

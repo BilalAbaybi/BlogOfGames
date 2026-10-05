@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un compte{% endblock %}
+
+{% block body %}
+    <section class="page-section spad account-page">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-5 account-panel">
+                    <span class="catalog-kicker">Rejoins la communauté</span>
+                    <h1 class="h3 mb-3">Créer un compte</h1>
+
+                    {{ form_errors(registrationForm) }}
+
+                    {{ form_start(registrationForm) }}
+                        {{ form_row(registrationForm.pseudo) }}
+                        {{ form_row(registrationForm.email) }}
+                        {{ form_row(registrationForm.plainPassword) }}
+                        {{ form_row(registrationForm.agreeTerms) }}
+
+                        <button type="submit" class="site-btn">Créer mon compte</button>
+                    {{ form_end(registrationForm) }}
+
+                    <p class="mt-4 account-switch">
+                        Vous êtes déjà inscrit ?
+                        <a href="{{ path('app_login') }}">Connectez-vous</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

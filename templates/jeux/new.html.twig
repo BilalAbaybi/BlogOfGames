@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %}Ajouter un jeu{% endblock %}
+{% block body %}
+    {{ include('_admin/form_page.html.twig', {
+        heading: 'Ajouter un jeu',
+        intro: 'Renseigne sa fiche, ajoute des captures et partage une vidéo.',
+        form_template: 'jeux/_form.html.twig',
+        back_path: path('app_jeux_index'),
+        back_label: 'Retour aux jeux',
+        button_label: 'Créer le jeu'
+    }) }}
+{% endblock %}

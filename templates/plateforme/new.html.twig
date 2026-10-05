@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %}Nouvelle plateforme{% endblock %}
+{% block body %}
+    {{ include('_admin/form_page.html.twig', {
+        heading: 'Ajouter une plateforme',
+        intro: 'Ajoute une console ou un support disponible pour les jeux.',
+        form_template: 'plateforme/_form.html.twig',
+        back_path: path('app_plateforme_index'),
+        back_label: 'Retour aux plateformes',
+        button_label: 'Créer la plateforme'
+    }) }}
+{% endblock %}

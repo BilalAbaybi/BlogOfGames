@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}Modifier {{ plateforme.nom }}{% endblock %}
+{% block body %}
+    {{ include('_admin/form_page.html.twig', {
+        heading: 'Modifier la plateforme',
+        intro: 'Mets à jour le nom de cette plateforme.',
+        form_template: 'plateforme/_form.html.twig',
+        back_path: path('app_plateforme_index'),
+        back_label: 'Retour aux plateformes',
+        button_label: 'Enregistrer les modifications',
+        delete_template: 'plateforme/_delete_form.html.twig'
+    }) }}
+{% endblock %}

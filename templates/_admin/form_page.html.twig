@@ -1,0 +1,28 @@
+<section class="page-info-section set-bg admin-hero" data-setbg="{{ asset('img/page-top-bg/1.jpg') }}">
+    <div class="pi-content">
+        <div class="container">
+            <div class="text-white">
+                <span class="cata new">{{ eyebrow|default('Gestion du site') }}</span>
+                <h2>{{ heading }}</h2>
+                <p>{{ intro }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="admin-page spad">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <article class="admin-panel">
+                    {{ include(form_template, {button_label: button_label|default('Enregistrer')}) }}
+                </article>
+
+                <nav class="admin-page-actions" aria-label="Actions de la page">
+                    <a href="{{ back_path }}" class="catalog-back">← {{ back_label|default('Retour à la liste') }}</a>
+                    {% if delete_template is defined %}{{ include(delete_template) }}{% endif %}
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>

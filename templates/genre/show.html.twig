@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ genre.nom }}{% endblock %}
+
+{% block body %}
+    <section class="page-info-section set-bg" data-setbg="{{ asset('img/page-top-bg/1.jpg') }}">
+        <div class="pi-content">
+            <div class="container">
+                <div class="row"><div class="col-lg-8 text-white">
+                    <span class="cata new">Catégorie</span>
+                    <h2>{{ genre.nom }}</h2>
+                    <p>{{ genre.jeux|length }} jeu{{ genre.jeux|length == 1 ? '' : 'x' }} à découvrir</p>
+                </div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section spad catalog-page">
+        <div class="container">
+            <div class="catalog-heading">
+                <div>
+                    <span class="catalog-kicker">À découvrir</span>
+                    <h1>Les jeux {{ genre.nom }}</h1>
+                </div>
+                <a class="catalog-back" href="{{ path('app_genre_index') }}">← Toutes les catégories</a>
+            </div>
+            <div class="row">
+                {% for jeux in genre.jeux %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <article class="recent-game-item catalog-game-card">
+                            <a class="rgi-thumb set-bg" data-setbg="{{ asset(jeux.img ?: 'img/recent-game-bg.png') }}" href="{{ path('app_jeux_show', {id: jeux.id}) }}" aria-label="Découvrir {{ jeux.titre }}">
+                                <span class="cata new">{{ genre.nom }}</span>
+                            </a>
+                            <div class="rgi-content">
+                                <h5><a href="{{ path('app_jeux_show', {id: jeux.id}) }}">{{ jeux.titre }}</a></h5>
+                                {% if jeux.description %}<p>{{ jeux.description|length > 120 ? jeux.description|slice(0, 120) ~ '…' : jeux.description }}</p>{% endif %}
+                                <a class="comment" href="{{ path('app_jeux_show', {id: jeux.id}) }}">Voir la fiche du jeu →</a>
+                            </div>
+                        </article>
+                    </div>
+                {% else %}
+                    <div class="col-12"><div class="catalog-empty">Aucun jeu n’est encore associé à cette catégorie.</div></div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

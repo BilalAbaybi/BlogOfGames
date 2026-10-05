@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %}Nouvelle catégorie{% endblock %}
+{% block body %}
+    {{ include('_admin/form_page.html.twig', {
+        heading: 'Créer une catégorie',
+        intro: 'Ajoute un nouvel univers à la bibliothèque de jeux.',
+        form_template: 'genre/_form.html.twig',
+        back_path: path('app_genre_index'),
+        back_label: 'Retour aux catégories',
+        button_label: 'Créer la catégorie'
+    }) }}
+{% endblock %}

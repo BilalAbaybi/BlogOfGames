@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    <section class="page-section spad account-page">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-5">
+                    <form method="post" class="account-panel">
+                        <span class="catalog-kicker">Heureux de te revoir</span>
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        <h1 class="h3 mb-3">Connexion</h1>
+                        <label for="username">Adresse e-mail</label>
+                        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control mb-3" autocomplete="email" required autofocus>
+                        <label for="password">Mot de passe</label>
+                        <input type="password" name="_password" id="password" class="form-control mb-3" autocomplete="current-password" required>
+                        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+                        <button class="site-btn" type="submit">Se connecter</button>
+                    </form>
+                    <p class="mt-4 account-switch">
+                        Vous n’êtes pas encore inscrit ?
+                        <a href="{{ path('app_register') }}">Créez un compte</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

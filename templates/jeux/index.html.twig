@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les jeux{% endblock %}
+
+{% block body %}
+    <section class="page-info-section set-bg" data-setbg="{{ asset('img/page-top-bg/1.jpg') }}">
+        <div class="pi-content"><div class="container"><div class="row"><div class="col-lg-8 text-white">
+            <h2>Tous les jeux</h2><p>Retrouve les fiches et les avis de la communauté.</p>
+        </div></div></div></div>
+    </section>
+    <section class="page-section spad catalog-page">
+      <div class="container">
+        <div class="catalog-heading"><div><span class="catalog-kicker">La bibliothèque</span><h1>Explorer les jeux</h1></div><a class="site-btn" href="{{ path('app_jeux_new') }}">Ajouter un jeu</a></div>
+        <div class="row">
+        {% for jeux in jeuxes %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <article class="recent-game-item catalog-game-card">
+                    <a class="rgi-thumb set-bg" data-setbg="{{ asset(jeux.img ?: 'img/recent-game-bg.png') }}" href="{{ path('app_jeux_show', {id: jeux.id}) }}" aria-label="Découvrir {{ jeux.titre }}">
+                        {% if jeux.genre %}<span class="cata new">{{ jeux.genre.nom }}</span>{% endif %}
+                    </a>
+                    <div class="rgi-content">
+                        <h5><a href="{{ path('app_jeux_show', {id: jeux.id}) }}">{{ jeux.titre }}</a></h5>
+                        {% if jeux.description %}<p>{{ jeux.description|length > 120 ? jeux.description|slice(0, 120) ~ '…' : jeux.description }}</p>{% endif %}
+                        {% if jeux.dateSortie %}<span class="catalog-date">Sorti le {{ jeux.dateSortie|date('d/m/Y') }}</span>{% endif %}
+                        <a class="comment" href="{{ path('app_jeux_show', {id: jeux.id}) }}">Voir la fiche du jeu →</a>
+                        <a class="admin-card-edit" href="{{ path('app_jeux_edit', {id: jeux.id}) }}">Modifier la fiche</a>
+                    </div>
+                </article>
+            </div>
+        {% else %}
+            <div class="col-12"><div class="catalog-empty">Aucun jeu n’est disponible pour le moment.</div></div>
+        {% endfor %}
+        </div>
+      </div>
+    </section>
+{% endblock %}

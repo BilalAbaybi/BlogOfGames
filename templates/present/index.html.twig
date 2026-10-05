@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block title %}Tarifs des jeux{% endblock %}
+{% block body %}
+    <section class="page-info-section set-bg admin-hero" data-setbg="{{ asset('img/page-top-bg/1.jpg') }}">
+        <div class="pi-content"><div class="container"><div class="text-white">
+            <span class="cata new">Gestion du site</span><h2>Tarifs et plateformes</h2><p>Retrouve les offres associées à chaque jeu.</p>
+        </div></div></div>
+    </section>
+    <section class="admin-page spad">
+        <div class="container">
+            <div class="admin-list-heading"><div><span class="catalog-kicker">Bibliothèque</span><h1>Gérer les tarifs</h1></div><a class="site-btn" href="{{ path('app_present_new') }}">Ajouter un tarif</a></div>
+            <div class="admin-record-list">
+                {% for present in presents %}
+                    <article class="admin-record">
+                        <span class="admin-record-icon">€</span>
+                        <div class="admin-record-content">
+                            <h2>{{ present.jeux.titre }}</h2>
+                            <p>{{ present.plateforme.nom }} · {{ present.prix is not null ? present.prix|number_format(2, ',', ' ') ~ ' €' : 'Prix non renseigné' }}</p>
+                        </div>
+                        <div class="admin-record-actions"><a href="{{ path('app_present_show', {id: present.id}) }}">Détails</a><a href="{{ path('app_present_edit', {id: present.id}) }}">Modifier</a></div>
+                    </article>
+                {% else %}
+                    <div class="catalog-empty">Aucun tarif n’est enregistré pour le moment.</div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

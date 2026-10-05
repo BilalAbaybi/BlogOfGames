@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %}Nouveau tarif{% endblock %}
+{% block body %}
+    {{ include('_admin/form_page.html.twig', {
+        heading: 'Ajouter un tarif',
+        intro: 'Associe un jeu à une plateforme et indique son prix.',
+        form_template: 'present/_form.html.twig',
+        back_path: path('app_present_index'),
+        back_label: 'Retour aux tarifs',
+        button_label: 'Créer le tarif'
+    }) }}
+{% endblock %}

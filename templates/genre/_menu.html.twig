@@ -1,0 +1,3 @@
+{% for genre in genres %}
+    <li><a href="{{ path('app_genre_show', {id: genre.id}) }}">{{ genre.nom }}</a></li>
+{% endfor %}

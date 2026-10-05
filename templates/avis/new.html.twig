@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Donner mon avis sur {{ jeux.titre }}{% endblock %}
+
+{% block body %}
+    <section class="page-section spad account-page">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 account-panel">
+                    <span class="catalog-kicker">La communauté</span>
+                    <h1 class="h3">Ton avis sur {{ jeux.titre }}</h1>
+
+                    {{ form_start(form) }}
+                        <div class="form-group">
+                            {{ form_label(form.note) }}
+                            {{ form_errors(form.note) }}
+                            <div class="avis-rating" role="radiogroup" aria-label="Note sur 5 étoiles">
+                                {% for choix in form.note %}
+                                    {{ form_widget(choix) }}
+                                    <label for="{{ choix.vars.id }}" title="{{ choix.vars.label }}">★</label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {{ form_row(form.description) }}
+                        <button type="submit" class="site-btn">Publier mon avis</button>
+                    {{ form_end(form) }}
+
+                    <p class="mt-4"><a href="{{ path('app_jeux_show', {id: jeux.id}) }}">Retour au jeu</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

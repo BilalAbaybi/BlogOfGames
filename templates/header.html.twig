@@ -1,0 +1,35 @@
+	<!-- Header section -->
+	<header class="header-section">
+		<div class="container">
+			<!-- logo -->
+			<a class="site-logo" href="{{ path('app_index') }}">
+				<img src="{{ asset('img/logo.png') }}" alt="Accueil">
+			</a>
+			<div class="user-panel">
+				{% if app.user %}
+					<span>{{ app.user.pseudo ?: app.user.userIdentifier }}</span>
+					<form action="{{ path('_logout_main') }}" method="post" class="d-inline">
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+						<button type="submit" class="btn btn-link p-0 logout-link">Déconnexion</button>
+					</form>
+				{% else %}
+					<a href="{{ path('app_login') }}">Connexion/Inscription</a>
+				{% endif %}
+			</div>
+			<!-- responsive -->
+			<div class="nav-switch">
+				<i class="fa fa-bars"></i>
+			</div>
+			<!-- site menu -->
+			<nav class="main-menu">
+				<ul>
+					<li><a href="{{ path('app_index') }}">Accueil</a></li>
+					{{ render(controller('App\\Controller\\GenreController::menu')) }}
+					<li><a href="categories.html">Blog</a></li>
+					<li><a href="community.html">Forums</a></li>
+					<li><a href="{{ path('app_contact') }}">Contact</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<!-- Header section end -->
