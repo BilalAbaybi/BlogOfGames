@@ -99,13 +99,21 @@ final class JeuxController extends AbstractController
     #[Route('/{id}/edit', name: 'app_jeux_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Jeux $jeux, EntityManagerInterface $entityManager, JeuxImageUploader $imageUploader): Response
     {
-        $form = $this->createForm(JeuxType::class, $jeux);
+        $form = $this->createForm(JeuxType::class, $jeux, [
+            'images_existantes' => $jeux->getGalerie(),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $imagesASupprimer = array_values(array_intersect(
+                $jeux->getGalerie(),
+                $form->get('galerieASupprimer')->getData() ?? [],
+            ));
+            $jeux->setGalerie(array_values(array_diff($jeux->getGalerie(), $imagesASupprimer)));
             $imagesAjoutees = $imageUploader->uploadAll($form->get('galerieFichiers')->getData() ?? []);
             $jeux->setGalerie([...$jeux->getGalerie(), ...$imagesAjoutees]);
             $entityManager->flush();
+            $imageUploader->deleteAll($imagesASupprimer);
 
             return $this->redirectToRoute('app_jeux_index', [], Response::HTTP_SEE_OTHER);
         }

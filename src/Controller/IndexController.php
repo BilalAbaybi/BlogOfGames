@@ -12,8 +12,9 @@ class IndexController extends AbstractController
     #[Route('/ ', name: 'app_index')]
     public function index(JeuxRepository $jeuxRepository): Response
     {
-        $jeuxRepository = $jeuxRepository->findAll();
-        return $this->render('default.html.twig', ['jeux' => $jeuxRepository]);
+        $jeux = $jeuxRepository->findBy([], ['id' => 'DESC'], 4);
+
+        return $this->render('default.html.twig', ['jeux' => $jeux]);
     }
     #[Route('/contact', name: 'app_contact')]
     public function contact(): Response

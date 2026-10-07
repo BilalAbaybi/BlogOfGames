@@ -41,4 +41,19 @@ final class JeuxImageUploader
 
         return $filenames;
     }
+
+    /** @param list<string> $filenames */
+    public function deleteAll(array $filenames): void
+    {
+        foreach ($filenames as $filename) {
+            if (basename($filename) !== $filename || !preg_match('/^[a-z0-9_-]+\.[a-z0-9]+$/i', $filename)) {
+                continue;
+            }
+
+            $path = $this->targetDirectory.DIRECTORY_SEPARATOR.$filename;
+            if (is_file($path) && !unlink($path)) {
+                throw new \RuntimeException('Impossible de supprimer une image de la galerie.');
+            }
+        }
+    }
 }

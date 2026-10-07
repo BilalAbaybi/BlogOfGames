@@ -6,6 +6,7 @@ use App\Entity\Genre;
 use App\Entity\Jeux;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -41,6 +42,14 @@ class JeuxType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('galerieASupprimer', ChoiceType::class, [
+                'label' => 'Photos déjà dans la galerie',
+                'mapped' => false,
+                'required' => false,
+                'expanded' => true,
+                'multiple' => true,
+                'choices' => array_combine($options['images_existantes'], $options['images_existantes']) ?: [],
+            ])
             ->add('youtubeUrl', UrlType::class, [
                 'label' => 'Lien de la vidéo YouTube',
                 'required' => false,
@@ -66,6 +75,8 @@ class JeuxType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Jeux::class,
+            'images_existantes' => [],
         ]);
+        $resolver->setAllowedTypes('images_existantes', 'array');
     }
 }

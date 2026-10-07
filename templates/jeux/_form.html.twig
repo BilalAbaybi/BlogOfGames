@@ -9,17 +9,21 @@
     {{ form_row(form.detail) }}
     {{ form_row(form.img) }}
     {{ form_row(form.galerieFichiers) }}
+    {% if form.galerieASupprimer|length > 0 %}
+        <div class="gallery-removal-field">
+            {{ form_label(form.galerieASupprimer) }}
+            {{ form_errors(form.galerieASupprimer) }}
+            <div class="gallery-removal-grid">
+                {% for imageField in form.galerieASupprimer %}
+                    <label class="gallery-removal-option" for="{{ imageField.vars.id }}">
+                        <img src="{{ asset('uploads/jeux/' ~ imageField.vars.value) }}" alt="Capture de {{ jeux.titre }}">
+                        <span>{{ form_widget(imageField) }} Retirer cette photo</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
     {{ form_row(form.youtubeUrl) }}
     <button class="site-btn" type="submit">{{ button_label|default('Créer le jeu') }}</button>
 {{ form_end(form) }}
 
-{% if jeux.id and jeux.galerie is not empty %}
-    <div class="mt-4">
-        <h4>Captures déjà ajoutées</h4>
-        <div class="media-gallery media-gallery-compact">
-            {% for image in jeux.galerie %}
-                <img src="{{ asset('uploads/jeux/' ~ image) }}" alt="Capture de {{ jeux.titre }}">
-            {% endfor %}
-        </div>
-    </div>
-{% endif %}
